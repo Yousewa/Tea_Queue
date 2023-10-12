@@ -78,7 +78,7 @@ def simulation(numSeconds, teasPerMinute):
     else:
         averageWait = 0
 
-    print("平均等待时间为%-6.2f 秒 %1d 杯奶茶在排队." % (averageWait, teaQueue.size()))
+    print("平均等待时间为%-6.2f 秒 %1d 杯奶茶在排队. =)" % (averageWait, teaQueue.size()))
 
 teaQuality = 0.5  # 初始制作速度，每分钟做0.5杯奶茶
 simuTimes = 10 # 模拟的次数
