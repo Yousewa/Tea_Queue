@@ -60,13 +60,20 @@ def simulation(numSeconds, teasPerMinute):
 
         teaMaking, highTime = newTeaTask()
         if teaMaking == 'dy':
-            task = Task(currentSecond)
-            teaQueue.enqueue(task)
-            if highTime == 'high' and labT_M.teaRate < 2 * teaQuality:  # 高峰时段，提高制作速度
-                labT_M.teaRate *= 2
-                print("高峰时段，加派人手，制作速度提至每分钟%d杯" % labT_M.teaRate)
-            elif teaMaking == 'break' and highTime == 'break':  # 既不是高峰时段也不是正常时段
-                print("现在没有顾客。")
+            
+            if highTime == 'high':  # 高峰时段，提高制作速度
+                task = Task(currentSecond)
+                teaQueue.enqueue(task)
+                labT_M.teaRate = 1.0
+                if c == 'T':
+                    print("有顾客在%d秒提交奶茶申请，且为高峰时段" % currentSecond)
+                    print("高峰时段，加派人手，制作速度变为每分钟%d杯" % labT_M.teaRate)
+            elif highTime == 'normal':
+                task = Task(currentSecond)
+                teaQueue.enqueue(task)
+                if c == 'T':
+                    print("有顾客在%d秒提交奶茶申请，且为正常时段" % currentSecond)
+                    print('正常时段，减少人手，制作速度变为每分钟%.1f杯'% teaQuality)
         if (not labT_M.busy()) and (not teaQueue.isEmpty()):
             nexttask = teaQueue.dequeue()
             waitingtimes.append(nexttask.waitTime(currentSecond))
@@ -78,12 +85,11 @@ def simulation(numSeconds, teasPerMinute):
     else:
         averageWait = 0
 
-    print("平均等待时间为%-6.2f 秒 %1d 杯奶茶在排队. =)" % (averageWait, teaQueue.size()))
+    print("平均等待时间为%-6.2f 秒 %1d 杯奶茶在排队." % (averageWait, teaQueue.size()))
 
+c = input('是否查看每秒的具体情况(输入T查看):')
 teaQuality = 0.5  # 初始制作速度，每分钟做0.5杯奶茶
 simuTimes = 10 # 模拟的次数
 for i in range(1, simuTimes + 1):
     print("模拟第%d次,初始制作速度为每分钟做%.1f杯" % (i, teaQuality))
     simulation(3600, teaQuality)
-
-
