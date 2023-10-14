@@ -67,13 +67,13 @@ def simulation(numSeconds, teasPerMinute):
                 labT_M.teaRate = 1.0
                 if c == 'T':
                     print("有顾客在%d秒提交奶茶申请，且为高峰时段" % currentSecond)
-                    print("高峰时段，加派人手，制作速度变为每分钟%d杯" % labT_M.teaRate)
+                    print("高峰时段，制作速度变为每分钟%d杯" % labT_M.teaRate)
             elif highTime == 'normal':
                 task = Task(currentSecond)
                 teaQueue.enqueue(task)
                 if c == 'T':
                     print("有顾客在%d秒提交奶茶申请，且为正常时段" % currentSecond)
-                    print('正常时段，减少人手，制作速度变为每分钟%.1f杯'% teaQuality)
+                    print('正常时段，制作速度变为每分钟%.1f杯'% teaQuality)
         if (not labT_M.busy()) and (not teaQueue.isEmpty()):
             nexttask = teaQueue.dequeue()
             waitingtimes.append(nexttask.waitTime(currentSecond))
