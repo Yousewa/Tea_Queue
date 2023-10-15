@@ -1,6 +1,7 @@
 from pythonds.basic.queue import Queue
 import random as r
 
+
 class T_M:
     def __init__(self, tpm):
         self.teaRate = tpm  # 做奶茶的速度
@@ -24,6 +25,7 @@ class T_M:
         # 新起一个奶茶任务，计算并设置等待时间，原速度为分，最后乘以60转化为秒
         self.timeRemaining = newtask.getTeas() / self.teaRate * 60
 
+
 class Task:
     def __init__(self, time):
         self.timestamp = time  # 在3600秒内的第几秒生成任务
@@ -38,6 +40,7 @@ class Task:
     def waitTime(self, currenttime):  # 给定一个走到第几秒来计算等待时间
         return currenttime - self.timestamp
 
+
 def newTeaTask():
     num = r.random()
     if num < 1 / 500:  # 高峰时段
@@ -46,6 +49,7 @@ def newTeaTask():
         return 'dy', 'normal'
     else:
         return 'break', 'break'
+
 
 def simulation(numSeconds, teasPerMinute):
     # 这里定义一个抽象的奶茶店设置对象
@@ -60,7 +64,6 @@ def simulation(numSeconds, teasPerMinute):
 
         teaMaking, highTime = newTeaTask()
         if teaMaking == 'dy':
-            
             if highTime == 'high':  # 高峰时段，提高制作速度
                 task = Task(currentSecond)
                 teaQueue.enqueue(task)
@@ -73,7 +76,7 @@ def simulation(numSeconds, teasPerMinute):
                 teaQueue.enqueue(task)
                 if c == 'T':
                     print("有顾客在%d秒提交奶茶申请，且为正常时段" % currentSecond)
-                    print('正常时段，制作速度变为每分钟%.1f杯'% teaQuality)
+                    print('正常时段，制作速度变为每分钟%.1f杯' % teaQuality)
         if (not labT_M.busy()) and (not teaQueue.isEmpty()):
             nexttask = teaQueue.dequeue()
             waitingtimes.append(nexttask.waitTime(currentSecond))
@@ -87,9 +90,10 @@ def simulation(numSeconds, teasPerMinute):
 
     print("平均等待时间为%-6.2f 秒 %1d 杯奶茶在排队." % (averageWait, teaQueue.size()))
 
-c = input('是否查看每秒的具体情况(输入T查看):')
+
+c = input('是否查看每秒的具体情况(是：Ｔ　否：任意):')
 teaQuality = 0.5  # 初始制作速度，每分钟做0.5杯奶茶
-simuTimes = 10 # 模拟的次数
+simuTimes = 10  # 模拟的次数
 for i in range(1, simuTimes + 1):
     print("模拟第%d次,初始制作速度为每分钟做%.1f杯" % (i, teaQuality))
     simulation(3600, teaQuality)
